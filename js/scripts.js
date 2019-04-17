@@ -1,4 +1,3 @@
-        // give $().bootstrapBtn the Bootstrap functionality
 
 var monday1 = new JournalEntry(
   n = '04/15/2000 13:00',
@@ -45,6 +44,22 @@ Journal.prototype.findJournalEntry = function(id) {
   }
   return false;
 }
+Journal.prototype.editJournalEntry = function(id, sleep, medications, exercises, food, drink, drinkAmount, general) {
+  for (var i = 0; i < this.journalEntries.length; i++) {
+    if (this.journalEntries[i]) {
+      if (this.journalEntries[i].id == parseInt(id)) {
+        this.journalEntries[i].sleep = sleep;
+        this.journalEntries[i].medications = medications;
+        this.journalEntries[i].exercises = exercises;
+        this.journalEntries[i].food = food;
+        this.journalEntries[i].drink = drink;
+        this.journalEntries[i].drinkAmount = drinkAmount;
+        this.journalEntries[i].general = general;
+      }
+    }
+  }
+};
+// need this prototype
 Journal.prototype.getSleep = function(id) {
   var sleeps=[];
 
@@ -166,59 +181,97 @@ function JournalEntry(n, sleep, medications, exercises, food, drink, drinkAmount
 // User Interface
 function listfilteredEntries(journal, property) {
   var htmlForfilteredEntries = "";
+  var line=1;
+   var appliedClass = "";
 
-  if (property === "sleep"){
-    var filteredEntries = $("ul#filteredSleepDates");
-    journal.journalEntries.forEach(function(journalEntry) {
-      if (journalEntry.sleep) {
-        htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" + n + " " + journalEntry.sleep + "</li>";
-      }
-    });
-  } else if (property === "medications") {
-      var filteredEntries = $("ul#filteredMedicationsDates");
-      journal.journalEntries.forEach(function(journalEntry) {
-        if (journalEntry.medications) {
-          htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" + n + " " + journalEntry.medications + "</li>";
-        }
-      });
-  } else if (property === "exercises") {
-      var filteredEntries = $("ul#filteredExercisesDates");
-      journal.journalEntries.forEach(function(journalEntry) {
-        if (journalEntry.exercises) {
-          htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" + n + " " + journalEntry.exercises + "</li>";
-        }
-      });
-  } else if (property === "food") {
-      var filteredEntries = $("ul#filteredFoodDates");
-      journal.journalEntries.forEach(function(journalEntry) {
-        if (journalEntry.food) {
-          htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" + n + " " + journalEntry.food + "</li>";
-        }
-    });
-  } else if (property === "drink") {
-      var filteredEntries = $("ul#filteredDrinkDates");
-      journal.journalEntries.forEach(function(journalEntry) {
-        if (journalEntry.drink) {
-          htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" +  n + " " + journalEntry.drink + "</li>";
-        }
-    });
-  } else if (property === "drinkAmount") {
-        var filteredEntries = $("ul#filteredDrinkAmountDates");
-        journal.journalEntries.forEach(function(journalEntry) {
-          if (journalEntry.drinkAmount) {
-            htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" +  n + " " + journalEntry.drinkAmount + "</li>";
-          }
-      });
-  } else if (property === "general") {
-      var filteredEntries = $("ul#filteredGeneralDates");
-      journal.journalEntries.forEach(function(journalEntry) {
-        if (journalEntry.general) {
-          htmlForfilteredEntries += "<li id=" + journalEntry.id + ">" + n + " " + journalEntry.general + "</li>";
-        }
-      });
-  }
-  filteredEntries.html(htmlForfilteredEntries);
-  console.log(filteredEntries);
+   if (property === "sleep"){
+   var filteredEntries = $("#filteredSleepDates");
+   journal.journalEntries.forEach(function(journalEntry) {
+     if (journalEntry.sleep) {
+       if (line%2 === 1) {
+         appliedClass = 'oddRow';
+       } else {
+         appliedClass = "evenRow";
+       }
+       htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.sleep}<p></div>`;
+       line+=1;
+     }
+   });
+ } else if (property === "medications") {
+     var filteredEntries = $("#filteredMedicationsDates");
+     journal.journalEntries.forEach(function(journalEntry) {
+       if (journalEntry.medications) {
+         if (line%2 === 1) {
+           appliedClass = 'oddRow';
+         } else {
+           appliedClass = "evenRow";
+         }
+         htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.medications}<p></div>`;
+         line+=1;        }
+     });
+ } else if (property === "exercises") {
+     var filteredEntries = $("#filteredExercisesDates");
+     journal.journalEntries.forEach(function(journalEntry) {
+       if (journalEntry.exercises) {
+         if (line%2 === 1) {
+           appliedClass = 'oddRow';
+         } else {
+           appliedClass = "evenRow";
+         }
+         htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.exercises}<p></div>`;
+         line+=1;        }
+     });
+ } else if (property === "food") {
+     var filteredEntries = $("#filteredFoodDates");
+     journal.journalEntries.forEach(function(journalEntry) {
+       if (journalEntry.food) {
+         if (line%2 === 1) {
+           appliedClass = 'oddRow';
+         } else {
+           appliedClass = "evenRow";
+         }
+         htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.food}<p></div>`;
+         line+=1;        }
+   });
+ } else if (property === "drink") {
+     var filteredEntries = $("#filteredDrinkDates");
+     journal.journalEntries.forEach(function(journalEntry) {
+       if (journalEntry.drink) {
+         if (line%2 === 1) {
+           appliedClass = 'oddRow';
+         } else {
+           appliedClass = "evenRow";
+         }
+         htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.drink}<p></div>`;
+         line+=1;        }
+   });
+ } else if (property === "drinkAmount") {
+     var filteredEntries = $("#filteredDrinkAmountDates");
+     journal.journalEntries.forEach(function(journalEntry) {
+       if (journalEntry.drinkAmount) {
+         if (line%2 === 1) {
+           appliedClass = 'oddRow';
+         } else {
+           appliedClass = "evenRow";
+         }
+         htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.drink}<p></div>`;
+         line+=1;        }
+   });
+ } else if (property === "general") {
+     var filteredEntries = $("#filteredGeneralDates");
+     journal.journalEntries.forEach(function(journalEntry) {
+       if (journalEntry.general) {
+         if (line%2 === 1) {
+           appliedClass = 'oddRow';
+         } else {
+           appliedClass = "evenRow";
+         }
+         htmlForfilteredEntries += `<div class=${appliedClass} id=${journalEntry.id}><p>${journalEntry.timeDate}</p></div><div class=${appliedClass}><p> ${journalEntry.general}<p></div>`;
+         line+=1;        }
+     });
+ }
+ filteredEntries.html(htmlForfilteredEntries);
+ console.log(filteredEntries);
 }
 
 function attachSleepListeners() {
@@ -290,17 +343,48 @@ var journal = new Journal();
 
 function showEntry(entryId) {
   var entry = journal.findJournalEntry(entryId);
+  $("#editId").html(entryId);
   $("#show-template").show();
   $(".sleep").html(entry.sleep);
   $(".medications").html(entry.medications);
   $(".exercises").html(entry.exercises);
   $(".food").html(entry.food);
   $(".drink").html(entry.drink);
-  $(".drink-amount").html(entry.drinkAmount);
+  $(".drinkAmount").html(entry.drinkAmount)
   $(".general").html(entry.general);
 }
 
+function clearFields(){
+  $("input#sleep").val("");
+  $("textarea#medications").val("");
+  $("textarea#exercise").val("");
+  $("input#food").val("");
+  $("input#drink").val("");
+  $("input#drinkAmount").val("");
+  $("textarea#notes").val("");
+}
 
+function getDateTime() {
+  var date = new Date();
+  var month = (date.getMonth() + 1).toString();
+  var day =  date.getDate().toString();
+  var hour = date.getHours().toString();
+  var minutes = date.getMinutes().toString();
+  if (month.length === 1) {
+    month = '0' + month;
+  }
+  if (day.length === 1) {
+    day = '0' + day;
+  }
+  if (hour.length === 1) {
+    hour = '0' + hour;
+  }
+  if (minutes.length === 1) {
+    minutes = '0' + minutes;
+  }
+  var n = month + '/' + day + '/' + date.getFullYear() + ' ' + hour + ":" + minutes;
+  return n;
+}
 
 
 $(document).ready(function() {
@@ -320,21 +404,24 @@ $(document).ready(function() {
   $("form#formOne").submit(function(event) {
     event.preventDefault();
 
-    var sleep = parseInt($("input#sleep").val());
-    var medications = $("textarea#medications").val();
-    var exercise = $("textarea#exercise").val();
-    var food = $("input#food").val();
-    var drink = $("input#drink").val();
-    var drinkAmount =parseInt($("input#drink-amount").val());
-    var notes = $("textarea#notes").val();
-    var date = new Date();
-    var n = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + date.getHours() + ":" + date.getMinutes();
-    var newEntry = new JournalEntry(n, sleep, medications, exercise, food, drink, drinkAmount, notes);
+    var sleep = $("input#sleep").val();
+   var medications = $("textarea#medications").val();
+   var exercise = $("textarea#exercise").val();
+   var food = $("input#food").val();
+   var drink = $("input#drink").val();
+   var drinkAmount = $("input#drinkAmount").val();
+   var notes = $("textarea#notes").val();
+   var date = getDateTime();
+   var newEntry = new JournalEntry(date, sleep, medications, exercise, food, drink, drinkAmount, notes);
 
-    journal.addJournalEntry(newEntry);
-    $("#all-dates").append("<li id=" + newEntry.id + ">" + n + "</li> <br>");
+   journal.addJournalEntry(newEntry);
+   $("#all-dates").append("<li id=" + newEntry.id + ">" + date + "</li>");
 
-  });
+   clearFields();
+
+
+
+ });
 
   $("#sleep-button").click(function() {
     $("#form").slideUp();
@@ -481,4 +568,16 @@ $(".everything").slideDown();
 $("#carouselExampleIndicators").slideUp();
 
   });
+
+  $("#editEntry").click(function() {
+      var id = $("#editId").html();
+      var sleep = $("#editSleep").html();
+      var medications = $("#editMeds").html();
+      var exercises = $("#editExercises").html();
+      var food = $("#editFood").html();
+      var drink = $("#editDrink").html();
+      var drinkAmount = $("#editDrinkAmount").html();
+      var general = $("#editGeneral").html();
+      journal.editJournalEntry(id, sleep, medications, exercises, food, drink, drinkAmount, general);
+    });
 });
